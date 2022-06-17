@@ -7,6 +7,9 @@ networks:
   prometheus:
     external:
       name: prometheus
+  vectro_lite_redis-net:
+    external:
+      name: vectro_lite_redis-net
 
 services:
   redis-exporter:
@@ -14,13 +17,16 @@ services:
     container_name: redis-exporter
     ports:
       - 9121:9121
+    expose:
+      - 9121
     restart: unless-stopped
     environment:
-      REDIS_ADDR: "redis:6379"
+      REDIS_ADDR: "redis:6380"
       REDIS_USER: null
       REDIS_PASSWORD: null
 
     networks:
       - redis
       - prometheus
+      - vectro_lite_redis-net
       

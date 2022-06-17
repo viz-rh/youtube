@@ -1,0 +1,34 @@
+version: '3'
+
+networks:
+  redis:
+    external: true
+    name: redis
+  prometheus:
+    external: true
+    name: prometheus
+  vectro_lite_redis-net:
+    external: true
+    name: vectro_lite_redis-net
+
+services:
+  redis-exporter:
+    image: oliver006/redis_exporter
+    container_name: vectro-lite-redis-exporter
+    ports:
+      # - 9122:9122
+      - 9122:9121
+      # - 9121:9124
+    expose:
+      - 9121
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: "vectro_lite-redisJson-server-1:6379"
+      REDIS_USER: null
+      REDIS_PASSWORD: null
+
+    networks:
+      - redis
+      - prometheus
+      - vectro_lite_redis-net
+      
